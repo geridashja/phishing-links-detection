@@ -46,11 +46,20 @@ if isValid == True:
     time.sleep(5)
     test = Classification(url)
     test.url = url
+    if 'www' in url:
+        domain = url.split('//www.')[1].split('.')[0]
+    else:
+        domain = url.split('//')[1].split('.')[0]
+    #print(domain)
     if (test.is_long(url) or test.has_at(url) or test.has_ngrok(url)) ==1:
-        print("Phishing url content") 
+        print("Phishing content in FULL URL") 
+        sys.exit()
+    if (test.double_slash(domain) or test.has_minus(domain) or test.many_subd(domain)) ==1:
+        print("Phishing content in DOMAIN") 
         sys.exit()
     else:
-        print("No phishing url content")
+        print("No phishing content")
+        sys.exit()
 else:
     print("Invalid url")
     sys.exit()
